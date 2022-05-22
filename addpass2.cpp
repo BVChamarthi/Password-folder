@@ -1,8 +1,18 @@
 #include <iostream>
+#include <filesystem>
 #include <fileapi.h>
 #include <string>
+namespace fs = std::filesystem;
 
 int main() {
+    std::string folder = "./locker";
+
+    // CHECK IF THE FOLDER EXISTS
+    fs::path folder_path(folder);
+    if(!fs::exists(folder_path)) {      // if the folder doesn't exist, make it
+        fs::create_directory(folder);
+        system("attrib +s +h \"locker\"");          // add the hidden tag and the system tag to the file
+    }
 
     bool hidden = GetFileAttributesA((LPCSTR)"locker") & FILE_ATTRIBUTE_HIDDEN;     // check if the file is hidden
     
